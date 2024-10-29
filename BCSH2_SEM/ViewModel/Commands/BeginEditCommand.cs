@@ -1,27 +1,24 @@
-﻿using BCSH2_SEM.Model;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace BCSH2_SEM.ViewModel.Commands;
 
-public class LoginCommand : ICommand
+public class BeginEditCommand : ICommand
 {
-    public LoginVM VM { get; set; }
-
+    public NotesVM Vm { get; set; }
     public event EventHandler CanExecuteChanged;
 
-    public LoginCommand(LoginVM vm)
+    public BeginEditCommand(NotesVM vm)
     {
-        VM = vm;
+        Vm = vm;
     }
 
     public bool CanExecute(object parameter)
     {
-        var user = parameter as User;
         return true;
     }
 
     public void Execute(object parameter)
     {
-        VM.Login();
+        Vm.StartEditing();
     }
 }

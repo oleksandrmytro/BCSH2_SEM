@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BCSH2_SEM.ViewModel;
+using BCSH2_SEM.ViewModel.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,27 @@ namespace BCSH2_SEM.View
         public LoginWindow()
         {
             InitializeComponent();
+            LoginVM vm = new LoginVM();
+            DataContext = vm;
+            vm.HasLoggedIn += Vm_HasLoggedIn;
+
+        }
+
+        private void Vm_HasLoggedIn(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void haveAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Collapsed;
+            loginStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void noAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Visible;
+            loginStackPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

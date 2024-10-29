@@ -1,26 +1,31 @@
-﻿using System.Windows.Input;
-using BCSH2_SEM.ViewModel;
+﻿using BCSH2_SEM.Model;
+using System.Windows.Input;
 
-namespace BCSH2_SEM.Commands;
+namespace BCSH2_SEM.ViewModel.Commands;
 
 public class NewNoteCommand : ICommand
 {
-    public event EventHandler? CanExecuteChanged;
     public NotesVM VM { get; set; }
-    
+
+    public event EventHandler CanExecuteChanged;
+
     public NewNoteCommand(NotesVM vm)
     {
         VM = vm;
     }
-    
-    public bool CanExecute(object? parameter)
+
+    public bool CanExecute(object parameter)
     {
-        return true;
+        Notebook selectedNotebook = parameter as Notebook;
+        if (selectedNotebook != null)
+            return true;
+
+        return false;
     }
 
-    public void Execute(object? parameter)
+    public void Execute(object parameter)
     {
-        throw new NotImplementedException();
+        Notebook selectedNotebook = parameter as Notebook;
+        VM.CreateNote(selectedNotebook.Id);
     }
-
 }

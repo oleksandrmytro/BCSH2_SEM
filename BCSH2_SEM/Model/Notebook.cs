@@ -1,12 +1,43 @@
-﻿using SQLite;
+﻿using System.ComponentModel;
+using SQLite;
 
-namespace BCSH2_SEM.Model;
-
-public class Notebook
+namespace BCSH2_SEM.Model
 {
-    [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
-    [Indexed]
-    public int UserId { get; set; }
-    public string Name { get; set; }
+    [Table("Notebook")]
+    public class Notebook : INotifyPropertyChanged
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        private int userId;
+        [Indexed]
+        public int UserId
+        {
+            get { return userId; }
+            set
+            {
+                userId = value;
+                OnPropertyChanged(nameof(UserId));
+            }
+        }
+
+        private string name;
+        [MaxLength(100), NotNull]
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

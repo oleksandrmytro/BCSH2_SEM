@@ -9,6 +9,7 @@ namespace BCSH2_SEM
     /// </summary>
     public partial class App : Application
     {
+        public static string UserId { get; set; } = string.Empty;
     }
 
 }
