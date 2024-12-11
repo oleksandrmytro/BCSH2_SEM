@@ -33,6 +33,20 @@ namespace BCSH2_SEM.Model
             }
         }
 
+        private bool isEditing = false;
+        public bool IsEditing
+        {
+            get { return isEditing; }
+            set
+            {
+                if (isEditing != value)
+                {
+                    isEditing = value;
+                    OnPropertyChanged(nameof(IsEditing));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)

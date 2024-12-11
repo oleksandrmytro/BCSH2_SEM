@@ -1,24 +1,32 @@
-﻿using System.Windows.Input;
+﻿// BeginEditCommand.cs
+using BCSH2_SEM.Model;
+using System;
+using System.Windows.Input;
 
-namespace BCSH2_SEM.ViewModel.Commands;
-
-public class BeginEditCommand : ICommand
+namespace BCSH2_SEM.ViewModel.Commands
 {
-    public NotesVM Vm { get; set; }
-    public event EventHandler CanExecuteChanged;
-
-    public BeginEditCommand(NotesVM vm)
+    public class BeginEditCommand : ICommand
     {
-        Vm = vm;
-    }
+        public NotesVM ViewModel { get; set; }
 
-    public bool CanExecute(object parameter)
-    {
-        return true;
-    }
+        public BeginEditCommand(NotesVM vm)
+        {
+            ViewModel = vm;
+        }
 
-    public void Execute(object parameter)
-    {
-        Vm.StartEditing();
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            if (parameter is Notebook notebook)
+            {
+                ViewModel.StartEditing(notebook);
+            }
+        }
     }
 }

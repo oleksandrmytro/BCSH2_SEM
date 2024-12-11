@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using BCSH2_SEM.Model;
 
 namespace BCSH2_SEM.View
 {
@@ -28,8 +29,12 @@ namespace BCSH2_SEM.View
         public NotesWindow()
         {
             InitializeComponent();
-            viewModel = Resources["vm"] as NotesVM;
-            container.DataContext = viewModel;
+
+            // Initialize and assign ViewModel
+            viewModel = new NotesVM();
+            this.DataContext = viewModel;
+
+            // Subscribe to events
             viewModel.SelectedNoteChanged += ViewModel_SelectedNoteChanged;
 
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
@@ -174,6 +179,41 @@ namespace BCSH2_SEM.View
             range.Save(fileStream, DataFormats.Rtf);
 
             viewModel.UpdateSelectedNote();
+        }
+
+        private void NotebookNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var textBox = sender as TextBox;
+                if (textBox != null)
+                {
+                    var notebook = textBox.DataContext as Notebook;
+                    if (notebook != null && viewModel.HasRenamedCommand.CanExecute(notebook))
+                    {
+                        viewModel.HasRenamedCommand.Execute(notebook);
+                    }
+                    notebook.IsEditing = false;
+                    e.Handled = true; // Позначаємо подію як оброблену
+                }
+            }
+        }
+
+        private void NoteTitleTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var textBox = sender as TextBox;
+                if (textBox != null)
+                {
+                    var note = textBox.DataContext as Note;
+                    if (note != null && viewModel.SaveEditedNoteCommand.CanExecute(note))
+                    {
+                        viewModel.SaveEditedNoteCommand.Execute(note);
+                    }
+                    e.Handled = true; // Mark event as handled
+                }
+            }
         }
     }
 }

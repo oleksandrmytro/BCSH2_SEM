@@ -1,37 +1,38 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using BCSH2_SEM.Model;
 
 namespace BCSH2_SEM.ViewModel.Commands
 {
-    public class DeleteNotebookCommand : ICommand
+    public class DeleteNoteCommand : ICommand
     {
         private readonly NotesVM viewModel;
 
-        public DeleteNotebookCommand(NotesVM viewModel)
+        public DeleteNoteCommand(NotesVM viewModel)
         {
             this.viewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
         {
-            return parameter is Notebook notebook;
+            return parameter is Note note;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is Notebook notebook)
+            if (parameter is Note note)
             {
-                // (Optional) Add confirmation before deletion
-                var result = System.Windows.MessageBox.Show(
-                    $"Are you sure you want to delete the notebook \"{notebook.Name}\"?",
+                // Optional: Add confirmation before deletion
+                var result = MessageBox.Show(
+                    $"Are you sure you want to delete the note \"{note.Title}\"?",
                     "Delete Confirmation",
-                    System.Windows.MessageBoxButton.YesNo,
-                    System.Windows.MessageBoxImage.Warning);
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
 
-                if (result == System.Windows.MessageBoxResult.Yes)
+                if (result == MessageBoxResult.Yes)
                 {
-                    viewModel.DeleteNotebook(notebook);
+                    viewModel.DeleteNote(note);
                 }
             }
         }

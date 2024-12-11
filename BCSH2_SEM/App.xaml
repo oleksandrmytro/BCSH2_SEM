@@ -2,8 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:BCSH2_SEM"
+             xmlns:converters="clr-namespace:BCSH2_SEM.ViewModel.Converters"
              StartupUri="View/NotesWindow.xaml">
     <Application.Resources>
-         
+        <converters:BoolToVisConverter x:Key="BoolToVisConverter"/>
+        <converters:InverseBoolToVisConverter x:Key="InverseBoolToVisConverter"/>
     </Application.Resources>
 </Application>
